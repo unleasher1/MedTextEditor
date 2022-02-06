@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
-import java.awt.*;
 
 public class StatusTracker extends Thread {
     public Document document;
