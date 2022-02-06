@@ -1,24 +1,44 @@
+import BackGroundDeamon.StatController.StatusTracker;
+import BackGroundDeamon.Syntax.Slicer.Slicer;
+import UI.Initiators.MenuInitiator;
+
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
     JFrame frame;
-    JTextArea textArea;
+    JPanel container;
     JMenuBar menuBar;
-    public MainFrame(){
+
+    public MainFrame() {
         // instancing the main components
         frame = new JFrame();
-        textArea = new JTextArea();
-        menuBar = new JMenuBar();
-        // menuBar
-        JMenu menuFile = new JMenu("File");
-        JMenuItem newItem = new JMenuItem("New");
-        JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem saveItem = new JMenuItem("save");
-        menuFile.add(newItem);
-        menuFile.add(openItem);
-        menuFile.add(saveItem);
-    }
-    public static void main(String[] args){
+        container = new JPanel();
+        JTextPane textPane = new JTextPane();
 
+
+        // menuBar
+        MenuInitiator initiator = new MenuInitiator();
+        menuBar = initiator.initiate();
+
+
+        frame.add(container);
+
+        //setting the frame
+        frame.setLocationRelativeTo(null);
+        frame.setSize(600, 500);
+        frame.setJMenuBar(menuBar);
+        frame.add(textPane);
+        //adding stat tracker
+        StatusTracker tracker = new StatusTracker(textPane);
+
+
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        MainFrame frame = new MainFrame();
+        Slicer slicer =
+                new Slicer("Mohamed Jlassi; what are the best programming language \n hello ");
     }
 }
