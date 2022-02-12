@@ -1,19 +1,19 @@
-package UI.Initiators;
+package UI.Initiators.Components;
 
-import UI.Initiators.CustomComponents.CustomJFrame;
-import UI.Initiators.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.MFrame;
+import UI.CustomComponents.MMenuComponents.MMenu;
+import UI.CustomComponents.MMenuComponents.MMenuBar;
+import UI.CustomComponents.MMenuComponents.MMenuItem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MenuBarInitiator {
-    JMenuBar menuBar;
+    MMenuBar menuBar;
 
     public MenuBarInitiator() {
-        this.menuBar = new JMenuBar();
-        this.menuBar.setBorderPainted(true);
+        this.menuBar = new MMenuBar(UIType.DARK);
         setBackAndFor(menuBar);
     }
 
@@ -29,64 +29,60 @@ public class MenuBarInitiator {
 
     private void initComponents() {
         //File Menu
-        JMenu fileMenu = new JMenu("file");
-        setBackAndFor(fileMenu);
+        MMenu fileMenu = new MMenu("file", UIType.DARK);
         JMenuItem newItem = new JMenuItem("new");
+
         newItem.addActionListener(e -> System.out.println("new Triggred"));
-        setBackAndFor(newItem);
-        JMenuItem saveItem = new JMenuItem("save");
+        MMenuItem saveItem = new MMenuItem("save", UIType.DARK);
         saveItem.addActionListener(e -> {
             System.out.println("save Triggred");
-            CustomJFrame customJFrame = new CustomJFrame(UIType.DARK);
-            customJFrame.setVisible(true);
+            MFrame mFrame = new MFrame(UIType.DARK);
+            mFrame.setVisible(true);
         });
-        setBackAndFor(saveItem);
-        JMenuItem openItem = new JMenuItem("open");
+
+        MMenuItem openItem = new MMenuItem("open", UIType.DARK);
         openItem.addActionListener(e -> System.out.println("open Triggred"));
-        setBackAndFor(openItem);
-        JMenuItem closeItem = new JMenuItem("close");
+
+        MMenuItem closeItem = new MMenuItem("close", UIType.DARK);
         closeItem.addActionListener(e -> System.out.println("close Triggred"));
-        setBackAndFor(closeItem);
+
         fileMenu.add(newItem);
         fileMenu.add(saveItem);
         fileMenu.add(openItem);
         fileMenu.add(closeItem);
 
-
+        UIType type = UIType.DARK;
         //Edit Menu
-        JMenu editMenu = new JMenu("edit");
-        setBackAndFor(editMenu);
-        JMenuItem undoItem = new JMenuItem("undo");
+        MMenu editMenu = new MMenu("edit", type);
+
+        MMenuItem undoItem = new MMenuItem("undo", type);
         undoItem.addActionListener(e -> System.out.println("undo Triggred"));
-        setBackAndFor(undoItem);
-        JMenuItem sudoItem = new JMenuItem("sudo");
+
+        MMenuItem sudoItem = new MMenuItem("sudo", type);
         sudoItem.addActionListener(e -> System.out.println("sudo Triggred"));
-        setBackAndFor(sudoItem);
-        JMenuItem searchItem = new JMenuItem("search");
+
+        MMenuItem searchItem = new MMenuItem("search", type);
         searchItem.addActionListener(e -> System.out.println("search Triggred"));
-        setBackAndFor(searchItem);
 
         editMenu.add(undoItem);
         editMenu.add(sudoItem);
         editMenu.add(searchItem);
 
         //About Menu
-        JMenu about = new JMenu("about");
-        setBackAndFor(about);
-        JMenuItem version = new JMenuItem("version");
+        MMenu about = new MMenu("about", type);
+
+        MMenuItem version = new MMenuItem("version", type);
         version.addActionListener(e -> System.out.println("version Triggred"));
-        setBackAndFor(version);
-        JMenuItem aboutDev = new JMenuItem("AboutDev");
+        MMenuItem aboutDev = new MMenuItem("AboutDev", type);
         aboutDev.addActionListener(e -> System.out.println("aboutDev Triggered"));
-        setBackAndFor(aboutDev);
+
         about.add(version);
         about.add(aboutDev);
 
         // Help Menu
-        JMenu help = new JMenu("help");
-        setBackAndFor(help);
-        JMenuItem getHelp = new JMenuItem("getHelp");
-        setBackAndFor(getHelp);
+        MMenu help = new MMenu("help", type);
+
+        MMenuItem getHelp = new MMenuItem("getHelp", type);
         help.add(getHelp);
         // adding the MenuBar
         menuBar.add(fileMenu);

@@ -1,4 +1,4 @@
-package UI.Initiators.CustomComponents;
+package UI.CustomComponents;
 
 import javax.swing.text.DefaultStyledDocument;
 

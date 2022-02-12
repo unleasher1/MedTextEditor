@@ -1,4 +1,4 @@
-package UI.Initiators.CustomComponents.InternalValues;
+package UI.CustomComponents.InternalValues;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ public class UIStyle {
     static {
         // darkSchema initiating
         Color DarkPrim = Color.decode("#000000");
-        Color DarkSec = Color.decode("#2c2c2c");
+        Color DarkSec = Color.decode("#2e2e2e");
         Color Text = Color.decode("#ffebee");
         Color DarkBorder = Color.decode("#4f5b62");
         DARK = new ColorSchema(DarkPrim, DarkSec, DarkBorder, Text);

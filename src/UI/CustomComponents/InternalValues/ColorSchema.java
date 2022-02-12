@@ -1,4 +1,4 @@
-package UI.Initiators.CustomComponents.InternalValues;
+package UI.CustomComponents.InternalValues;
 
 import java.awt.*;
 
@@ -7,13 +7,18 @@ public class ColorSchema {
     private final Color secondary;
     private final Color border;
     private final Color Text;
-    private final Color transparent = new Color(Color.TRANSLUCENT);
+    private final Color transparent = new Color(0,0,0,0);
+
+    public Color getTransparent() {
+        return transparent;
+    }
 
     public ColorSchema(Color primary, Color secondary, Color border, Color text) {
         this.primiry = primary;
         this.secondary = secondary;
         this.border = border;
         Text = text;
+
     }
 
     public Color getPrimiry() {

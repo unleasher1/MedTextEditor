@@ -1,4 +1,4 @@
-package UI.Initiators.CustomComponents.InternalValues;
+package UI.CustomComponents.InternalValues;
 
 public enum UIType {
     DARK,

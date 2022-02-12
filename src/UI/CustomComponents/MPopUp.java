@@ -1,19 +1,19 @@
-package UI.Initiators.CustomComponents;
+package UI.CustomComponents;
 
-import UI.Initiators.CustomComponents.InternalValues.ColorSchema;
-import UI.Initiators.CustomComponents.InternalValues.UIStyle;
-import UI.Initiators.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.InternalValues.ColorSchema;
+import UI.CustomComponents.InternalValues.UIStyle;
+import UI.CustomComponents.InternalValues.UIType;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class CustomJPopUp extends JPopupMenu {
+public class MPopUp extends JPopupMenu {
     private ColorSchema shema;
 
     /**
      * Constructs a <code>JPopupMenu</code> without an "invoker".
      */
-    public CustomJPopUp(UIType style) {
+    public MPopUp(UIType style) {
         effectStyle(style);
     }
 
@@ -23,7 +23,7 @@ public class CustomJPopUp extends JPopupMenu {
      * @param label the string that a UI may use to display as a title
      *              for the popup menu.
      */
-    public CustomJPopUp(String label, UIType style) {
+    public MPopUp(String label, UIType style) {
         super(label);
         effectStyle(style);
     }

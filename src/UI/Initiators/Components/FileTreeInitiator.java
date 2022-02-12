@@ -1,4 +1,4 @@
-package UI.Initiators;
+package UI.Initiators.Components;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;

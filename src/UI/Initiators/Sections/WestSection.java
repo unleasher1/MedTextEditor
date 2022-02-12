@@ -1,10 +1,11 @@
 package UI.Initiators.Sections;
 
-import UI.Initiators.CustomComponents.CustomJPanel;
-import UI.Initiators.CustomComponents.GenerateRotatedLable;
-import UI.Initiators.CustomComponents.InternalValues.ResizeDirection;
-import UI.Initiators.CustomComponents.InternalValues.UIStyle;
-import UI.Initiators.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.InternalValues.UIStyle;
+import UI.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.MLabel;
+import UI.CustomComponents.MPanel;
+import UI.CustomComponents.VerticalMLabel;
+import UI.Initiators.Initiating;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -12,14 +13,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class WestSection {
-    boolean drag = false;
-    Point dragLocation = new Point();
-    JPanel westContainerPanel; // the container for all components in this section
+public class WestSection implements Initiating {
+    MPanel westContainerPanel; // the container for all components in this section
     JPanel ButtonContainer;
-    CustomJPanel fileTreeContainer; // the container for the file tree component.
+    MPanel wesToolContainer; // the container for the file tree component.
     JTree fileTree;
-    private boolean showFIletree;
+    private boolean showFileTree;
+    private MPanel structureSection;
+    private boolean structIsVis = false;
+    private MPanel treeContainer;
+    private boolean toolISshown = false;
 
     /**
      * East section will contain
@@ -27,22 +30,25 @@ public class WestSection {
      * this class will be improved later.
      */
     public WestSection() {
-        westContainerPanel = new JPanel(new BorderLayout());
+        westContainerPanel = new MPanel(new BorderLayout(), UIType.DARK);
+        westContainerPanel.setName("west");
+        westContainerPanel.setVisible(true);
+
         initTree();
+        initToolSection();
         initTreeSection();
         initFileButtonContainer();
-        ButtonContainer.setBackground(UIStyle.getDark().getPrimiry());
+
         westContainerPanel.add(ButtonContainer, BorderLayout.WEST);
-        fileTreeContainer.setBackground(UIStyle.getDark().getSecondary());
-        westContainerPanel.add(fileTreeContainer, BorderLayout.CENTER);
+        wesToolContainer.setBackground(UIStyle.getDark().getSecondary());
+        westContainerPanel.add(wesToolContainer, BorderLayout.CENTER);
+        initStructureSection();
         initStructureButton();
     }
 
     private void initFileButtonContainer() {
-        JLabel project = GenerateRotatedLable.generate("project");
-        project.setOpaque(true);
-        project.setBackground(Color.BLACK);
-        project.setForeground(Color.ORANGE);
+        VerticalMLabel project = new VerticalMLabel("Project", UIType.DARK);
+        project.setName("project");
         project.setSize(new Dimension(20, 50));
         project.setPreferredSize(new Dimension(20, 50));
 
@@ -55,12 +61,15 @@ public class WestSection {
              */
             @Override
             public void mouseClicked(MouseEvent e) {
-                showFIletree = !showFIletree;
-                fileTreeContainer.setVisible(showFIletree);
+                showFileTree = !showFileTree;
+                treeContainer.setVisible(showFileTree);
+                fileTree.setVisible(showFileTree);
+                wesToolContainer.setVisible(structIsVis || showFileTree);
+
             }
         });
 
-        ButtonContainer = new JPanel();
+        ButtonContainer = new MPanel(UIType.DARK);
         ButtonContainer.setPreferredSize(new Dimension(20, JFrame.MAXIMIZED_HORIZ));
 
 
@@ -68,25 +77,49 @@ public class WestSection {
     }
 
     private void initStructureButton() {
-        JLabel structuere = GenerateRotatedLable.generate("Structure");
-        structuere.setBackground(new Color(120, 23, 250));
-        structuere.setOpaque(true);
-        structuere.setPreferredSize(new Dimension(20, 80));
-        JPanel StructureButtonContainer = new JPanel();
-        StructureButtonContainer.add(structuere);
-        ButtonContainer.add(StructureButtonContainer, BorderLayout.SOUTH);
+        VerticalMLabel structure = new VerticalMLabel("Structure", UIType.DARK);
+        structure.setPreferredSize(new Dimension(20, 80));
+        MPanel strcutButton = new MPanel(UIType.DARK);
+        strcutButton.setBackgroundTransParent(true);
+        strcutButton.add(structure);
+        strcutButton.addMouseListener(new MouseAdapter() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param e
+             */
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                structIsVis = !structIsVis;
+                wesToolContainer.setVisible(structIsVis || showFileTree);
+                structureSection.setVisible(structIsVis);
+
+            }
+        });
+
+        ButtonContainer.add(strcutButton, BorderLayout.SOUTH);
 
     }
 
-    private void initTreeSection() {
+    private void initToolSection() {
 
-        fileTreeContainer = new CustomJPanel(UIType.DARK);
-        fileTreeContainer.add(fileTree);
-        fileTreeContainer.setDirection(ResizeDirection.West_East);
-        fileTreeContainer.setSize(200, JFrame.MAXIMIZED_HORIZ);
+        wesToolContainer = new MPanel(UIType.DARK);
+        wesToolContainer.add(fileTree);
 
-        fileTreeContainer.setVisible(showFIletree);
-        showFIletree = !showFIletree;
+        wesToolContainer.setSize(200, JFrame.MAXIMIZED_HORIZ);
+        wesToolContainer.setPreferredSize(new Dimension(200, JFrame.MAXIMIZED_HORIZ));
+        wesToolContainer.setVisible(showFileTree || structIsVis);
+        wesToolContainer.setName("westToolContainer");
+
+
+    }
+
+    void initTreeSection() {
+        treeContainer = new MPanel(UIType.DARK);
+        treeContainer.setSize(180, JFrame.MAXIMIZED_HORIZ);
+        treeContainer.setPreferredSize(new Dimension(200, JFrame.MAXIMIZED_HORIZ));
+        wesToolContainer.add(treeContainer, BorderLayout.NORTH);
 
     }
 
@@ -99,10 +132,22 @@ public class WestSection {
         DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("root2");
         root.add(root2);
         fileTree = new JTree(root);
+        fileTree.setSize(120, Frame.MAXIMIZED_HORIZ);
+        fileTree.setPreferredSize(new Dimension(180, 500));
+    }
+
+    private void initStructureSection() {
+        structureSection = new MPanel(UIType.DARK);
+        structureSection.add(new MLabel("structure", UIType.DARK), BorderLayout.CENTER);
+        structureSection.setSize(120, JFrame.MAXIMIZED_HORIZ);
+        structureSection.setVisible(structIsVis);
+        wesToolContainer.add(structureSection, BorderLayout.SOUTH);
     }
 
 
-    public JPanel getWestContainerPanel() {
+    @Override
+    public JPanel getInitiatedPanel() {
         return westContainerPanel;
     }
+
 }

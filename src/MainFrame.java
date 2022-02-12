@@ -1,26 +1,42 @@
-import BackGroundDeamon.StatController.StatusTracker;
+import UI.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.MButton;
+import UI.CustomComponents.MFrame;
+import UI.CustomComponents.MPanel;
+import UI.Initiators.Components.MenuBarInitiator;
 import UI.Initiators.ContentPaneInit;
-import UI.Initiators.CustomComponents.UIDirector.Director;
-import UI.Initiators.MenuBarInitiator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
     public static boolean RIGHT_TO_LEFT = false;
-    JFrame frame;
+    MFrame frame;
     Container conatainer;
     JMenuBar menuBar;
 
 
     public MainFrame() {
         // instancing the main components
-        frame = new JFrame();
+
+        frame = new MFrame(UIType.DARK);
+        MButton button = new MButton("exite", UIType.DARK);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
         conatainer = frame.getContentPane();
 
         // menuBar
         MenuBarInitiator initiator = new MenuBarInitiator();
         menuBar = initiator.initiate();
+        MPanel spacer = new MPanel(UIType.DARK);
+        menuBar.add(spacer, BorderLayout.CENTER);
+        menuBar.add(button, BorderLayout.WEST);
 
 
         //setting the frame
@@ -32,10 +48,6 @@ public class MainFrame extends JFrame {
         //adding stat tracker
 
         ContentPaneInit.addComponentsToPane(frame.getContentPane());
-        // adding and getting the TextPane
-        JTextPane pane = ContentPaneInit.initTextPane();
-        //adding status tracker to pane
-        StatusTracker tracker = new StatusTracker(pane);
         //adding the east section
         ContentPaneInit.addWestSection();
         ContentPaneInit.addCenter();

@@ -1,4 +1,4 @@
-package UI.Initiators.CustomComponents;
+package UI.CustomComponents;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

@@ -1,9 +1,9 @@
-package UI.Initiators.CustomComponents;
+package UI.CustomComponents;
 
-import UI.Initiators.CustomComponents.InternalValues.ColorSchema;
-import UI.Initiators.CustomComponents.InternalValues.ResizeDirection;
-import UI.Initiators.CustomComponents.InternalValues.UIStyle;
-import UI.Initiators.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.InternalValues.ColorSchema;
+import UI.CustomComponents.InternalValues.ResizeDirection;
+import UI.CustomComponents.InternalValues.UIStyle;
+import UI.CustomComponents.InternalValues.UIType;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,11 +12,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class CustomJPanel extends JPanel {
-    private ColorSchema shema;
+public class MPanel extends JPanel implements MComponent {
+    private ColorSchema schema;
     private boolean drag = false;
     private ResizeDirection direction;
     private Point dragPoint = new Point();
+    private MComponent parent;
 
     /**
      * Creates a new JPanel with the specified layout manager and buffering
@@ -26,9 +27,10 @@ public class CustomJPanel extends JPanel {
      * @param isDoubleBuffered a boolean, true for double-buffering, which
      *                         uses additional memory space to achieve fast, flicker-free
      */
-    public CustomJPanel(LayoutManager layout, boolean isDoubleBuffered, UIType style) {
+    public MPanel(LayoutManager layout, boolean isDoubleBuffered, UIType style) {
         super(layout, isDoubleBuffered);
-        effectStyle(style);
+        setStyle(style);
+        effectStyle();
     }
 
     /**
@@ -36,10 +38,11 @@ public class CustomJPanel extends JPanel {
      *
      * @param layout the LayoutManager to use
      */
-    public CustomJPanel(LayoutManager layout, UIType style) {
+    public MPanel(LayoutManager layout, UIType style) {
         super(layout);
-        effectStyle(style);
-        isResizable(true);
+        setStyle(style);
+        effectStyle();
+
     }
 
     /**
@@ -52,19 +55,24 @@ public class CustomJPanel extends JPanel {
      *                         uses additional memory space to achieve fast, flicker-free
      *                         updates
      */
-    public CustomJPanel(boolean isDoubleBuffered, UIType style) {
+    public MPanel(boolean isDoubleBuffered, UIType style) {
         super(isDoubleBuffered);
-        effectStyle(style);
-        isResizable(true);
+        setStyle(style);
+        effectStyle();
     }
 
     /**
      * Creates a new <code>JPanel</code> with a double buffer
      * and a flow layout.
      */
-    public CustomJPanel(UIType style) {
-        effectStyle(style);
-        isResizable(true);
+    public MPanel(UIType style) {
+        setStyle(style);
+        effectStyle();
+
+    }
+
+    public boolean isDrag() {
+        return drag;
     }
 
     public void setDirection(ResizeDirection direction) {
@@ -86,11 +94,11 @@ public class CustomJPanel extends JPanel {
 
     public void isResizable(boolean resizable) {
         if (resizable) {
-            setResiable();
+            setResizable();
         }
     }
 
-    private void setResiable() {
+    private void setResizable() {
 
         addMouseListener(new MouseAdapter() {
             /**
@@ -141,6 +149,7 @@ public class CustomJPanel extends JPanel {
                                 (getHeight()));
                         dragPoint = e.getPoint();
 
+
                     }
                     if (drag && (direction == ResizeDirection.East_West)) {
                         //setting the x
@@ -155,6 +164,15 @@ public class CustomJPanel extends JPanel {
 
             }
         });
+
+    }
+
+    public void onChildUpDated(Component child) {
+        this.validate();
+        this.repaint();
+    }
+
+    public void onParentUpDated(Component parent) {
 
     }
 
@@ -174,22 +192,104 @@ public class CustomJPanel extends JPanel {
 
     }
 
+    public void addBorder() {
+        Border border = BorderFactory.createLineBorder(schema.getBorder(), 3);
+        super.setBorder(border);
+    }
 
+    /**
+     * effect the style chosen  on this component
+     */
+    @Override
+    public void effectStyle() {
+        super.setBackground(schema.getPrimiry());
+//        super.setForeground(schema.getSecondary());
+
+    }
+
+    @Override
+/**
+ * {@inheritDoc}
+ */
     public void setStyle(UIType type) {
         switch (type) {
-            case DARK -> shema = UIStyle.getDark();
-            case Light -> shema = UIStyle.getLight();
+            case DARK -> schema = UIStyle.getDark();
+            case Light -> schema = UIStyle.getLight();
         }
         System.out.println(type.name());
     }
 
-    private void effectStyle(UIType style) {
-        setStyle(style);
-        super.setBackground(shema.getSecondary());
-        super.setForeground(shema.getPrimiry());
-        Border border = BorderFactory.createLineBorder(shema.getBorder(), 3);
-        super.setBorder(border);
+    /**
+     * set Background to Transparent
+     * <pre>
+     *     possible before or after calling {@code paintComponent()}
+     * </pre>
+     *
+     * @param isTransparent
+     */
+    @Override
+    public void setBackgroundTransParent(boolean isTransparent) {
+        if (isTransparent) {
+            super.setBackground(schema.getTransparent());
+        }
+
+    }
+
+    /**
+     * /**
+     * set Foreground to Transparent
+     * <pre>
+     *     possible before or after calling {@code paintComponent()}
+     * </pre>
+     *
+     * @param isTransparent
+     */
+    @Override
+    public void setForGroundTransParent(boolean isTransparent) {
+        if (isTransparent) {
+            super.setBackground(schema.getTransparent());
+        }
+
+    }
+
+    /**
+     * inherent Style from Parent Component
+     *
+     * @param DOinherent
+     */
+    @Override
+    public void inherentStyle(boolean DOinherent) {
+        if (DOinherent) {
+            this.schema = getMParent().getSchema();
+        }
+
+    }
+
+    /**
+     * get the current schema of this component
+     *
+     * @return {@link ColorSchema}
+     */
+    @Override
+    public ColorSchema getSchema() {
+        return schema;
+    }
+
+    /**
+     * returning the Parent of this component
+     *
+     * @return {@link MComponent}
+     */
+    @Override
+    public MComponent getMParent() {
+        return parent;
+    }
+
+    @Override
+    public void setMParent(MComponent parent) {
+        this.parent = parent;
     }
 
 
 }
+

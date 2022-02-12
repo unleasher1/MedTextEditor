@@ -1,6 +1,7 @@
 package UI.Initiators.Sections;
 
-import UI.Initiators.CustomComponents.ConsoleDocumentFilter;
+import UI.CustomComponents.ConsoleDocumentFilter;
+import UI.Initiators.Initiating;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class SouthSection {
+public class SouthSection implements Initiating {
     private JPanel southContainer; // main container of this section
     private JPanel panelNamesConatiner; // the container of the tool names
     private JPanel toolContainer; // the container of the tool [console ,git ,run]
@@ -38,9 +39,6 @@ public class SouthSection {
 
     }
 
-    public JPanel getSouthContainer() {
-        return southContainer;
-    }
 
     private void initConsol() {
         JTextPane console = new JTextPane();
@@ -142,6 +140,10 @@ public class SouthSection {
         return LocalDateTime.now();
     }
 
+    @Override
+    public JPanel getInitiatedPanel() {
+        return southContainer;
+    }
 }
 
 class addDocumentListener {

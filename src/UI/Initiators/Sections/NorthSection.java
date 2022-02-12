@@ -1,24 +1,36 @@
 package UI.Initiators.Sections;
 
+import UI.CustomComponents.InternalValues.UIType;
+import UI.CustomComponents.MButton;
+import UI.CustomComponents.MPanel;
+import UI.Initiators.Initiating;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class NorthSection {
-    JPanel panel;
+public class NorthSection implements Initiating {
+    MPanel northContainer;
+    MPanel panel;
+    MPanel spacer;
+    UIType type;
 
     public NorthSection() {
-        panel = new JPanel(new GridBagLayout());
+        type = UIType.DARK;
+        spacer = new MPanel(UIType.DARK);
+        northContainer = new MPanel(new BorderLayout(), UIType.DARK);
+        panel = new MPanel(new GridBagLayout(), type);
+        northContainer.add(panel, BorderLayout.WEST);
+        northContainer.add(spacer, BorderLayout.EAST);
+
         addButtons();
     }
 
     // adding buttons
     private void addButtons() {
-        JButton b1 = new JButton("button1");
-        JButton b2 = new JButton("button2");
-        JButton b3 = new JButton("button3");
-        JButton b4 = new JButton("button4");
+        MButton b1 = new MButton("button1", type);
+        MButton b2 = new MButton("button2", type);
+        MButton b3 = new MButton("button3", type);
+        MButton b4 = new MButton("button4", type);
         panel.add(b1);
         panel.add(b2);
         panel.add(b3);
@@ -35,7 +47,9 @@ public class NorthSection {
 
     }
 
-    public JPanel getPanel() {
-        return panel;
+
+    @Override
+    public JPanel getInitiatedPanel() {
+        return northContainer;
     }
 }

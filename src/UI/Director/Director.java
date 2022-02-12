@@ -1,20 +1,20 @@
-package UI.Initiators.CustomComponents.UIDirector;
+package UI.Director;
 
-import UI.Initiators.CustomComponents.CustomJPanel;
+import UI.CustomComponents.MPanel;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class Director implements Runnable {
-    protected CustomJPanel center;
-    protected CustomJPanel east;
-    protected CustomJPanel west;
-    protected CustomJPanel south;
+    protected MPanel center;
+    protected MPanel east;
+    protected MPanel west;
+    protected MPanel south;
 
 
     public Director(
-            CustomJPanel center, CustomJPanel east,
-            CustomJPanel west, CustomJPanel south
+            MPanel center, MPanel east,
+            MPanel west, MPanel south
     ) {
 
         this.center = center;
