@@ -17,7 +17,7 @@ public class MenuBarInitiator {
         setBackAndFor(menuBar);
     }
 
-    public JMenuBar initiate() {
+    public MMenuBar initiate() {
         initComponents();
         return menuBar;
     }
@@ -29,8 +29,10 @@ public class MenuBarInitiator {
 
     private void initComponents() {
         //File Menu
+
         MMenu fileMenu = new MMenu("file", UIType.DARK);
-        JMenuItem newItem = new JMenuItem("new");
+
+        MMenuItem newItem = new MMenuItem("new", UIType.DARK);
 
         newItem.addActionListener(e -> System.out.println("new Triggred"));
         MMenuItem saveItem = new MMenuItem("save", UIType.DARK);
